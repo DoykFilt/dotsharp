@@ -7,35 +7,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SQLite;
+using System.Data.SqlClient;
+using System.Xml;
+using System.Media;
+using Mercure.modèle;
 
 namespace Mercure
 {
     public partial class Integration : Form
     {
-        private bool crush; //enable overwrite
-
         public Integration()
         {
             InitializeComponent();
-            this.label2.ForeColor = Color.Red;
-            this.label2.Text = " ";
-            this.radioButton2.Checked = true;
+            this.checkBox1.Checked = true;
             this.progressBar1.ForeColor = Color.Plum;
-            this.progressBar1.Maximum = 10;
+            this.progressBar1.Minimum = 0;
+            this.progressBar1.Value = 0;
             this.progressBar1.Step = 1;
-            this.crush = true;
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        //Boutton d'intégration
+        private void button1_Click(object sender, EventArgs e)
         {
             if (this.textBox1.Text.CompareTo("") == 0)
-                this.label2.Text = "Veuillez sélectionner un fichier !!";
+            {
+                SystemSounds.Beep.Play();
+                this.label3.Text = "Veuillez sélectionner un fichier !!";
+            }
             else
             {
-                db_management dbmanage = new db_management();
-                if (radioButton2.Checked)
-                    dbmanage.flushTable();
-                dbmanage.integration(this.textBox1.Text);
+                if (checkBox1.Checked)
+                    flushTables();
+                integration(this.textBox1.Text);
             }
         }
 
@@ -51,37 +55,84 @@ namespace Mercure
             {
                 path = ofd.FileName;
                 this.textBox1.Text = path;
-                this.label2.Text = " ";
             }
             else
             {
-                this.label2.Text = "Veuillez sélectionner un fichier valide !!";
+                SystemSounds.Beep.Play();
+                this.label3.Text = "Veuillez sélectionner un fichier valide !!";
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        public void integration(String text)
         {
+            int countFailedArticle = 0;
+            this.progressBar1.Value = 0;
 
+            Console.WriteLine("Lecture du fichier xml " + text);
+            label3.Text = "Lecture du fichier XML..";
+            label3.Update();
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(text);
+
+            XmlNode node = doc.DocumentElement;
+            XmlNodeList nodeList = node.SelectNodes("/materiels/article");
+
+            label3.Text = nodeList.Count + " articles ont été détectés, intégration dans la base de données..";
+            label3.Update();
+            Console.WriteLine(nodeList.Count + " articles ont été détectés");
+            this.progressBar1.Maximum = nodeList.Count;
+
+            for (int i = 0; i < nodeList.Count; i++)
+            {
+                String description = nodeList[i].SelectNodes("description").Item(0).InnerText;
+                String refArticle = nodeList[i].SelectNodes("refArticle").Item(0).InnerText;
+                String marque = nodeList[i].SelectNodes("marque").Item(0).InnerText;
+                String famille = nodeList[i].SelectNodes("famille").Item(0).InnerText;
+                String sousFamille = nodeList[i].SelectNodes("sousFamille").Item(0).InnerText;
+                float prixHT = float.Parse(nodeList[i].SelectNodes("prixHT").Item(0).InnerText);
+
+                Articles article = new Articles(refArticle);
+                if (article.loadFromDB() == null)
+                {
+                    Marques marques = new Marques();
+                    marques.Nom = marque;
+                    marques.saveInDB();
+                    Familles familles = new Familles();
+                    familles.Nom = famille;
+                    familles.saveInDB();
+                    SousFamilles sfamilles = new SousFamilles();
+                    sfamilles.Nom = sousFamille;
+                    sfamilles.RefFamille = familles.RefFamille;
+                    sfamilles.saveInDB();
+
+                    article.Description = description;
+                    article.Quantite = 1;
+                    article.PrixHT = prixHT;
+                    article.RefMarque = marques.RefMarque;
+                    article.RefSousFamille = sfamilles.RefSousFamille;
+                    if(!article.saveInDB())
+                        countFailedArticle++;
+
+                }
+                else
+                {
+                    article.Quantite = article.Quantite + 1;
+                    article.updateInDB();
+                }
+                progressBar1.PerformStep();
+            }
+            SystemSounds.Beep.Play();
+            label3.Text = "Intégration terminée. " + countFailedArticle + " articles n'ont pas été intégrés";
+            label3.Update();
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        public void flushTables()
         {
-
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
+            Articles.flushTable();
+            SousFamilles.flushTable();
+            Familles.flushTable();
+            Marques.flushTable();
         }
     }
 }

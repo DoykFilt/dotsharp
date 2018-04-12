@@ -77,6 +77,10 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="modele\Articles.cs" />
+    <Compile Include="modele\Familles.cs" />
+    <Compile Include="modele\Marques.cs" />
+    <Compile Include="modele\SousFamilles.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Integration.resx">

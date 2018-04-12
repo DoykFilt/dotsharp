@@ -11,3 +11,16 @@ C:\Users\thiba\Documents\Cours\4A\S8\c#\Mercure\Mercure\obj\Debug\Mercure.csproj
 C:\Users\thiba\Documents\Cours\4A\S8\c#\Mercure\Mercure\obj\Debug\Mercure.exe
 C:\Users\thiba\Documents\Cours\4A\S8\c#\Mercure\Mercure\obj\Debug\Mercure.pdb
 C:\Users\thiba\Documents\Cours\4A\S8\c#\Mercure\Mercure\bin\Debug\SQLite.Interop.dll
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\bin\Debug\Mercure.exe.config
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure.exe
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure.pdb
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure.csprojResolveAssemblyReference.cache
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure.Integration.resources
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure.Main.resources
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure.Properties.Resources.resources
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure.csproj.GenerateResource.Cache
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\bin\Debug\SQLite.Interop.dll
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\bin\Debug\Mercure.exe
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\bin\Debug\Mercure.pdb
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\bin\Debug\System.Data.SQLite.dll
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\bin\Debug\System.Data.SQLite.xml
