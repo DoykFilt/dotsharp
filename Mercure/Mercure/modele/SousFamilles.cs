@@ -83,24 +83,24 @@ namespace Mercure.modèle
                 {
                     Console.WriteLine("L'objet existe déjà ! refSousFamille mis à jour");
                     reader.Read();
-                    refFamille = (int)reader[0];
+                    refSousFamille = (int)reader[0];
                     reader.Close();
                     db.closeConnection();
-                    return refFamille;
+                    return refSousFamille;
                 }
                 else
                 {
+                    refSousFamille = idSousFamille;
+                    idSousFamille++;
                     squery = "INSERT INTO SousFamilles (RefSousFamille, RefFamille, Nom) VALUES (@RefSousFamille, @RefFamille, @Nom)";
                     commande = new SQLiteCommand(squery, connection);
-                    commande.Parameters.Add(new SQLiteParameter("@RefSousFamille", idSousFamille));
+                    commande.Parameters.Add(new SQLiteParameter("@RefSousFamille", refSousFamille));
                     commande.Parameters.Add(new SQLiteParameter("@RefFamille", refFamille));
                     commande.Parameters.Add(new SQLiteParameter("@Nom", nom));
 
                     commande.ExecuteNonQuery();
-                    idSousFamille++;
-                    refSousFamille = idSousFamille;
                     db.closeConnection();
-                    return idSousFamille;
+                    return refSousFamille;
                 }
             }
             catch (Exception e)
@@ -115,7 +115,7 @@ namespace Mercure.modèle
         {
             db_management db = db_management.Instance;
             try{
-                if (refFamille == -1)
+                if (refSousFamille == -1)
                 {
                     Console.WriteLine("Erreur, ref nulle");
                     db.closeConnection();
@@ -136,14 +136,17 @@ namespace Mercure.modèle
 
                     if (reader.HasRows)
                     {
+                        reader.Read();
                         refFamille = (int)reader[1];
                         nom = (String)reader[2];
+                        reader.Close();
                         db.closeConnection();
                         return this.refSousFamille;
                     }
                     else
                     {
                         Console.WriteLine("Erreur, la sous-famille avec la référence " + refSousFamille + " n'existe pas");
+                        reader.Close();
                         db.closeConnection();
                         return -1;
                     }

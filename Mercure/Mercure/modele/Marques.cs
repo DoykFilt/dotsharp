@@ -87,17 +87,18 @@ namespace Mercure.modèle
                 }
                 else
                 {
+                    refMarque = idMarque;
+                    idMarque++;
+
                     squery = "INSERT INTO Marques (RefMarque, Nom) VALUES (@RefMarque, @Nom)";
                     commande = new SQLiteCommand(squery, connection);
-                    commande.Parameters.Add(new SQLiteParameter("@RefMarque", idMarque));
+                    commande.Parameters.Add(new SQLiteParameter("@RefMarque", refMarque));
                     commande.Parameters.Add(new SQLiteParameter("@Nom", nom));
 
                     commande.ExecuteNonQuery();
-                    idMarque++;
-                    refMarque = idMarque;
                     reader.Close();
                     db.closeConnection();
-                    return idMarque;
+                    return refMarque;
                 }
             }
             catch (Exception e)
@@ -132,6 +133,7 @@ namespace Mercure.modèle
 
                     if (reader.HasRows)
                     {
+                        reader.Read();
                         Nom = (String)reader[1];
                         reader.Close();
                         db.closeConnection();

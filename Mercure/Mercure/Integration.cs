@@ -107,18 +107,12 @@ namespace Mercure
                     sfamilles.saveInDB();
 
                     article.Description = description;
-                    article.Quantite = 1;
                     article.PrixHT = prixHT;
                     article.RefMarque = marques.RefMarque;
                     article.RefSousFamille = sfamilles.RefSousFamille;
                     if(!article.saveInDB())
                         countFailedArticle++;
 
-                }
-                else
-                {
-                    article.Quantite = article.Quantite + 1;
-                    article.updateInDB();
                 }
                 progressBar1.PerformStep();
             }

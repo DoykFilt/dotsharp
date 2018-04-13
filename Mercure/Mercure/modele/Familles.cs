@@ -86,17 +86,17 @@ namespace Mercure.modèle
                 }
                 else
                 {
+                    this.refFamille = idFamille;
+                    idFamille++;
                     squery = "INSERT INTO Familles (RefFamille, Nom) VALUES (@RefFamille, @Nom)";
                     commande = new SQLiteCommand(squery, connection);
-                    commande.Parameters.Add(new SQLiteParameter("@RefFamille", idFamille));
+                    commande.Parameters.Add(new SQLiteParameter("@RefFamille", refFamille));
                     commande.Parameters.Add(new SQLiteParameter("@Nom", nom));
 
                     commande.ExecuteNonQuery();
-                    idFamille++;
-                    this.refFamille = idFamille;
                     reader.Close();
                     db.closeConnection();
-                    return idFamille;
+                    return refFamille;
                 }
             }
             catch (Exception e)
@@ -131,6 +131,7 @@ namespace Mercure.modèle
 
                     if (reader.HasRows)
                     {
+                        reader.Read();
                         nom = (String)reader[1];
                         reader.Close();
                         db.closeConnection();
