@@ -9,14 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Mercure.modèle;
+using Mercure._marques;
+using Mercure._familles;
+using Mercure._sousFamilles;
 
 namespace Mercure
 {
     public partial class Main : Form
     {
-
+        private int sortColumn = -1;
         private Hashtable[] groupTables;
-        int groupColumn = 0;
 
         public Main()
         {
@@ -32,6 +34,11 @@ namespace Mercure
         private void Main_Load(object sender, EventArgs e)
         {
             refreshListView();
+            listView.MultiSelect = false;
+
+            Marques.loadLastId();
+            Familles.loadLastId();
+            SousFamilles.loadLastId();
         }
 
         private void refreshListView()
@@ -88,7 +95,6 @@ namespace Mercure
 
         private void listView_ColumnClick(object sender, System.Windows.Forms.ColumnClickEventArgs e)
         {
-            int sortColumn = -1;
             // Determine whether the column is the same as the last column clicked.
             if (e.Column != sortColumn)
             {
@@ -246,8 +252,7 @@ namespace Mercure
         {
             if (e.Button == MouseButtons.Left)
             {
-                int i = listView.SelectedIndices[0];
-                Console.WriteLine("Modification de l'article " + listView.Items[i].Text);
+                modificationArticle();
             }
         }
 
@@ -255,8 +260,7 @@ namespace Mercure
         {
             if (e.KeyCode == Keys.Enter)
             {
-                int i = listView.SelectedIndices[0];
-                Console.WriteLine("Modification de l'article " + listView.Items[i].Text);
+                modificationArticle();
             }
             else if (e.KeyCode == Keys.Delete)
             {
@@ -280,6 +284,9 @@ namespace Mercure
         private void ajouterUnArticleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Ajout d'un article");
+            AddOrModifyArticle addArticle = new AddOrModifyArticle(null);
+            if(addArticle.ShowDialog() == DialogResult.OK)
+                listView.Refresh();
         }
 
         private void supprimerLarticleToolStripMenuItem_Click(object sender, EventArgs e)
@@ -298,8 +305,7 @@ namespace Mercure
 
         private void modifierLarticleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int i = listView.SelectedIndices[0];
-            Console.WriteLine("Modification de l'article " + listView.Items[i].Text);
+            modificationArticle();
         }
 
         private void listView_Clic(object sender, MouseEventArgs e)
@@ -316,5 +322,45 @@ namespace Mercure
             }
         }
 
+        private void ajouterUnArticleToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            Console.WriteLine("Ajout d'un article");
+            AddOrModifyArticle addArticle = new AddOrModifyArticle();
+            if (addArticle.ShowDialog() == DialogResult.OK)
+                listView.Refresh();
+        }
+
+        private void rechargerF5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            refreshListView();
+        }
+
+        private void modificationArticle()
+        {
+            int i = listView.SelectedIndices[0];
+            Console.WriteLine("Modification de l'article " + listView.Items[i].Text);
+            Articles article = new Articles(listView.Items[i].Text);
+            article.loadFromDB();
+            AddOrModifyArticle addArticle = new AddOrModifyArticle(article);
+            addArticle.ShowDialog();
+        }
+
+        private void marquesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MarquesForm marquesForm = new MarquesForm();
+            marquesForm.ShowDialog();
+        }
+
+        private void famillesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FamillesForm familleForm = new FamillesForm();
+            familleForm.ShowDialog();
+        }
+
+        private void sousfamillesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SousFamillesForm sFamilleForm = new SousFamillesForm();
+            sFamilleForm.ShowDialog();
+        }
     }
 }

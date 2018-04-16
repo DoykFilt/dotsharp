@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace Mercure.modèle
 {
-    class Articles
+    public class Articles
     {
         private String refArticle;
         private String description;

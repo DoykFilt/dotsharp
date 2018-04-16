@@ -7,7 +7,7 @@ using System.Data.SQLite;
 
 namespace Mercure.modèle
 {
-    class Marques
+    public class Marques
     {
         static int idMarque = 0;
         private int refMarque;
@@ -15,7 +15,6 @@ namespace Mercure.modèle
 
         public Marques()
         {
-            idMarque = loadLastId();
             idMarque++;
             this.refMarque = -1;
             this.nom = null;
@@ -23,13 +22,12 @@ namespace Mercure.modèle
 
         public Marques(int r, String n)
         {
-            idMarque = loadLastId();
             idMarque++;
             this.refMarque = r;
             this.nom = n;
         }
 
-        private int loadLastId()
+        static public int loadLastId()
         {
             db_management db = db_management.Instance;
             try
@@ -45,23 +43,24 @@ namespace Mercure.modèle
                     int id;
                     if (reader[0].GetType() != typeof(DBNull))
                         id = (int)reader[0];
-                    else id = -1;
+                    else id = 0;
                     reader.Close();
                     db.closeConnection();
+                    idMarque = id;
                     return id;
                 }
                 else
                 {
                     reader.Close();
                     db.closeConnection();
-                    return -1;
+                    return 0;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message + " | In Marques/loadLastId");
                 db.closeConnection();
-                return -1;
+                return 0;
             }
         }
 
@@ -104,6 +103,31 @@ namespace Mercure.modèle
             catch (Exception e)
             {
                 Console.WriteLine(e.Message + " | In Marques/saveInDB");
+                db.closeConnection();
+            }
+            return -1;
+        }
+
+        public int updateInDB()
+        {
+            db_management db = db_management.Instance;
+            try
+            {
+                SQLiteConnection connection = db.openConnection();
+
+                Console.WriteLine("modification Marque");
+                string squery = "UPDATE Marques SET Nom = @Nom WHERE RefMarque = @RefMarque";
+                SQLiteCommand commande = new SQLiteCommand(squery, connection);
+                commande.Parameters.AddWithValue("@Nom", nom);
+                commande.Parameters.AddWithValue("@RefMarque", refMarque);
+                commande.ExecuteNonQuery();
+
+                db.closeConnection();
+                return this.refMarque;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " | In Marques/updateInDB");
                 db.closeConnection();
             }
             return -1;
@@ -156,6 +180,30 @@ namespace Mercure.modèle
             return -1;
         }
 
+        public bool deleteFromDB()
+        {
+            db_management db = db_management.Instance;
+            try
+            {
+                SQLiteConnection connection = db.openConnection();
+                SQLiteCommand commande;
+                String squery;
+                squery = "DELETE FROM Marques WHERE RefMarque = @RefMarque";
+                commande = new SQLiteCommand(squery, connection);
+                commande.Parameters.Add(new SQLiteParameter("@RefMarque", refMarque));
+
+                commande.ExecuteNonQuery();
+                db.closeConnection();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " | In Marques/deleteFromDB");
+                db.closeConnection();
+                return false;
+            }
+        }
+
         public static void flushTable()
         {
             db_management db = db_management.Instance;
@@ -173,6 +221,129 @@ namespace Mercure.modèle
                 db.closeConnection();
             }
         }
+
+        static public int getRefMarqueFromName(String name)
+        {
+            db_management db = db_management.Instance;
+            try
+            {
+                SQLiteConnection connection = db.openConnection();
+
+                String squery = "SELECT RefMarque FROM Marques WHERE Nom = @Nom";
+                SQLiteCommand commande = new SQLiteCommand(squery, connection);
+                commande.Parameters.Add(new SQLiteParameter("@Nom", name));
+                SQLiteDataReader reader = commande.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    int reference;
+                    if (reader[0].GetType() != typeof(DBNull))
+                        reference = Convert.ToInt32(reader.GetInt64(0));
+                    else reference = -1;
+                    reader.Close();
+                    db.closeConnection();
+                    return reference;
+                }
+                else
+                {
+                    reader.Close();
+                    db.closeConnection();
+                    return -1;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " | In Marques/getRefMarqueFromName");
+                db.closeConnection();
+                return -1;
+            }
+        }
+
+        public static List<Marques> getListMarques()
+        {
+            db_management db = db_management.Instance;
+            List<Marques> list = new List<Marques>();
+
+            try
+            {
+                SQLiteConnection connection = db.openConnection();
+                SQLiteCommand commande;
+                SQLiteDataReader reader;
+                string squery;
+
+                squery = "SELECT * FROM Marques";
+                commande = new SQLiteCommand(squery, connection);
+
+                reader = commande.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Marques marque = new Marques();
+
+                        marque.refMarque = Convert.ToInt32(reader.GetInt64(0));
+                        marque.nom = (String)reader[1];
+
+                        list.Add(marque);
+                    }
+
+                    reader.Close();
+                    db.closeConnection();
+                    return list;
+                }
+                else
+                {
+                    Console.WriteLine("Aucune marque dans la base");
+                    reader.Close();
+                    db.closeConnection();
+                    return list;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " | In Marques/getListMarques");
+                db.closeConnection();
+                return list;
+            }
+        }
+
+        public static int countRows()
+        {
+            db_management db = db_management.Instance;
+            try
+            {
+                SQLiteConnection connection = db.openConnection();
+
+                String squery = "SELECT COUNT(RefMarque) FROM Marques";
+                SQLiteCommand commande = new SQLiteCommand(squery, connection);
+                SQLiteDataReader reader = commande.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    int count;
+                    if (reader[0].GetType() != typeof(DBNull))
+                        count = Convert.ToInt32(reader.GetInt64(0));
+                    else count = -1;
+                    reader.Close();
+                    db.closeConnection();
+                    return count;
+                }
+                else
+                {
+                    reader.Close();
+                    db.closeConnection();
+                    return -1;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " | In Marques/countRows");
+                db.closeConnection();
+                return -1;
+            }
+        }
+
 
         public int RefMarque
         {

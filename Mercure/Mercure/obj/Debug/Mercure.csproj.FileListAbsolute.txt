@@ -24,3 +24,10 @@ C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\bin\Debug\Mercu
 C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\bin\Debug\Mercure.pdb
 C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\bin\Debug\System.Data.SQLite.dll
 C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\bin\Debug\System.Data.SQLite.xml
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure.AddOrModifyArticle.resources
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure._marques.AddOrModifyMarque.resources
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure._marques.MarquesForm.resources
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure._familles.FamillesForm.resources
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure._familles.AddOrModifyFamille.resources
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure._sousFamilles.AddOrModifySousFamille.resources
+C:\Users\thiba\Documents\Cours\4A\S8\c#\dotsharp\Mercure\Mercure\obj\Debug\Mercure._sousFamilles.SousFamillesForm.resources

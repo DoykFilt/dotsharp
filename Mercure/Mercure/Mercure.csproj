@@ -64,6 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddOrModifyArticle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddOrModifyArticle.Designer.cs">
+      <DependentUpon>AddOrModifyArticle.cs</DependentUpon>
+    </Compile>
     <Compile Include="db_management.cs" />
     <Compile Include="Integration.cs">
       <SubType>Form</SubType>
@@ -81,13 +87,58 @@
     <Compile Include="modele\Familles.cs" />
     <Compile Include="modele\Marques.cs" />
     <Compile Include="modele\SousFamilles.cs" />
+    <Compile Include="_sousFamilles\AddOrModifySousFamille.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_sousFamilles\AddOrModifySousFamille.Designer.cs">
+      <DependentUpon>AddOrModifySousFamille.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_sousFamilles\SousFamillesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_sousFamilles\SousFamillesForm.Designer.cs">
+      <DependentUpon>SousFamillesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_familles\AddOrModifyFamille.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_familles\AddOrModifyFamille.Designer.cs">
+      <DependentUpon>AddOrModifyFamille.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_familles\FamillesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_familles\FamillesForm.Designer.cs">
+      <DependentUpon>FamillesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_marques\AddOrModifyMarque.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_marques\AddOrModifyMarque.Designer.cs">
+      <DependentUpon>AddOrModifyMarque.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_marques\MarquesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="_marques\MarquesForm.Designer.cs">
+      <DependentUpon>MarquesForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AddOrModifyArticle.resx">
+      <DependentUpon>AddOrModifyArticle.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Integration.resx">
       <DependentUpon>Integration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_sousFamilles\AddOrModifySousFamille.resx">
+      <DependentUpon>AddOrModifySousFamille.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_sousFamilles\SousFamillesForm.resx">
+      <DependentUpon>SousFamillesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -98,6 +149,18 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="_familles\AddOrModifyFamille.resx">
+      <DependentUpon>AddOrModifyFamille.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_familles\FamillesForm.resx">
+      <DependentUpon>FamillesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_marques\AddOrModifyMarque.resx">
+      <DependentUpon>AddOrModifyMarque.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_marques\MarquesForm.resx">
+      <DependentUpon>MarquesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -137,6 +200,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

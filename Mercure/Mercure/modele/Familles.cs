@@ -7,7 +7,7 @@ using System.Data.SQLite;
 
 namespace Mercure.modèle
 {
-    class Familles
+    public class Familles
     {
         static int idFamille = 0;
         private int refFamille;
@@ -15,20 +15,18 @@ namespace Mercure.modèle
         
         public Familles()
         {
-            idFamille = loadLastId();
             idFamille++;
             this.refFamille = -1;
             this.nom = null;
         }
         public Familles(int r, String n)
         {
-            idFamille = loadLastId();
             idFamille++;
             this.refFamille = r;
             this.nom = n;
         }
 
-        private int loadLastId()
+        static public int loadLastId()
         {
             db_management db = db_management.Instance;
             try
@@ -44,23 +42,24 @@ namespace Mercure.modèle
                     int id;
                     if (reader[0].GetType() != typeof(DBNull))
                         id = (int)reader[0];
-                    else id = -1;
+                    else id = 0;
                     reader.Close();
                     db.closeConnection();
+                    idFamille = id;
                     return id;
                 }
                 else
                 {
                     reader.Close();
                     db.closeConnection();
-                    return -1;
+                    return 0;
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message + " | In Familles/loadLastId");
                 db.closeConnection();
-                return -1;
+                return 0;
             }
         }
 
@@ -105,6 +104,92 @@ namespace Mercure.modèle
                 db.closeConnection();
             }
             return -1;
+        }
+
+        public int updateInDB()
+        {
+            db_management db = db_management.Instance;
+            try
+            {
+                SQLiteConnection connection = db.openConnection();
+
+                Console.WriteLine("Modification Famille");
+                string squery = "UPDATE Familles SET Nom = @Nom WHERE RefFamille = @RefFamille";
+                SQLiteCommand commande = new SQLiteCommand(squery, connection);
+                commande.Parameters.AddWithValue("@Nom", nom);
+                commande.Parameters.AddWithValue("@RefFamille", refFamille);
+                commande.ExecuteNonQuery();
+
+                db.closeConnection();
+                return this.refFamille;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " | In Marques/updateInDB");
+                db.closeConnection();
+            }
+            return -1;
+        }
+
+        public bool deleteFromDB()
+        {
+            db_management db = db_management.Instance;
+            try
+            {
+                SQLiteConnection connection = db.openConnection();
+                SQLiteCommand commande;
+                String squery;
+                squery = "DELETE FROM Familles WHERE RefFamille = @RefFamille";
+                commande = new SQLiteCommand(squery, connection);
+                commande.Parameters.Add(new SQLiteParameter("@RefFamille", refFamille));
+
+                commande.ExecuteNonQuery();
+                db.closeConnection();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " | In Familles/deleteFromDB");
+                db.closeConnection();
+                return false;
+            }
+        }
+
+        static public int getRefFamilleFromName(String name)
+        {
+            db_management db = db_management.Instance;
+            try
+            {
+                SQLiteConnection connection = db.openConnection();
+
+                String squery = "SELECT RefFamille FROM Familles WHERE Nom = @Nom";
+                SQLiteCommand commande = new SQLiteCommand(squery, connection);
+                commande.Parameters.Add(new SQLiteParameter("@Nom", name));
+                SQLiteDataReader reader = commande.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    int reference;
+                    if (reader[0].GetType() != typeof(DBNull))
+                        reference = Convert.ToInt32(reader.GetInt64(0));
+                    else reference = -1;
+                    reader.Close();
+                    db.closeConnection();
+                    return reference;
+                }
+                else
+                {
+                    reader.Close();
+                    db.closeConnection();
+                    return -1;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " | In Familles/getRefFamilleFromName");
+                db.closeConnection();
+                return -1;
+            }
         }
 
         public int loadFromDB()
@@ -169,6 +254,91 @@ namespace Mercure.modèle
             {
                 Console.WriteLine(e.Message + " | In Familles/flushTable");
                 db.closeConnection();
+            }
+        }
+
+        public static List<Familles> getListFamilles()
+        {
+            db_management db = db_management.Instance;
+            List<Familles> list = new List<Familles>();
+
+            try
+            {
+                SQLiteConnection connection = db.openConnection();
+                SQLiteCommand commande;
+                SQLiteDataReader reader;
+                string squery;
+
+                squery = "SELECT * FROM Familles";
+                commande = new SQLiteCommand(squery, connection);
+
+                reader = commande.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Familles famille = new Familles();
+
+                        famille.refFamille = Convert.ToInt32(reader.GetInt64(0));
+                        famille.nom = (String)reader[1];
+
+                        list.Add(famille);
+                    }
+
+                    reader.Close();
+                    db.closeConnection();
+                    return list;
+                }
+                else
+                {
+                    Console.WriteLine("Aucune famille dans la base");
+                    reader.Close();
+                    db.closeConnection();
+                    return list;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " | In Famille/getListFamille");
+                db.closeConnection();
+                return list;
+            }
+        }
+
+        public static int countRows()
+        {
+            db_management db = db_management.Instance;
+            try
+            {
+                SQLiteConnection connection = db.openConnection();
+
+                String squery = "SELECT COUNT(RefFamille) FROM Familles";
+                SQLiteCommand commande = new SQLiteCommand(squery, connection);
+                SQLiteDataReader reader = commande.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    int count;
+                    if (reader[0].GetType() != typeof(DBNull))
+                        count = Convert.ToInt32(reader.GetInt64(0));
+                    else count = -1;
+                    reader.Close();
+                    db.closeConnection();
+                    return count;
+                }
+                else
+                {
+                    reader.Close();
+                    db.closeConnection();
+                    return -1;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " | In Familles/countRows");
+                db.closeConnection();
+                return -1;
             }
         }
 
