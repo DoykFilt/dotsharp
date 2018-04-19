@@ -91,6 +91,10 @@ namespace Mercure
             groupTables = new Hashtable[listView.Columns.Count];
             for (int column = 0; column < listView.Columns.Count; column++)
                 groupTables[column] = CreateGroupsTable(column);
+
+            //Pour que la colonne soit redimmensionnée automatiquement
+            listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
         private void listView_ColumnClick(object sender, System.Windows.Forms.ColumnClickEventArgs e)

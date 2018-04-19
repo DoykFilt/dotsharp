@@ -14,7 +14,7 @@ namespace Mercure
 {
     public partial class AddOrModifyArticle : Form
     {
-        private int prix = 0;
+        private float prix = 0;
         private int quantite = 0;
         private Articles article;
 
@@ -32,8 +32,8 @@ namespace Mercure
                 textBoxRef.Text = article.RefArticle;
                 textBoxRef.Enabled = false;
                 textBoxDescrip.Text = article.Description;
-                textBoxPrix.Text = article.PrixHT.ToString();
-                textBoxQuantite.Text = article.Quantite.ToString();
+                numericUpDown1.Value = (decimal)article.PrixHT;
+                numericUpDown2.Value = article.Quantite;
             }
             else
             {
@@ -57,8 +57,8 @@ namespace Mercure
                         article.Description = textBoxDescrip.Text;
                         article.RefMarque = Marques.getRefMarqueFromName(comboBoxMar.SelectedItem.ToString());
                         article.RefSousFamille = SousFamilles.getRefSousFamilleFromName(comboBoxSsFam.SelectedItem.ToString());
-                        article.PrixHT = prix;
-                        article.Quantite = quantite;
+                        article.PrixHT = (float)decimal.ToDouble(numericUpDown1.Value);
+                        article.Quantite = decimal.ToInt32(numericUpDown2.Value);
 
                         article.updateInDB();
                         this.DialogResult = DialogResult.OK;
@@ -121,15 +121,6 @@ namespace Mercure
                 validation = false;
 
             if (comboBoxSsFam.SelectedItem == null)
-                validation = false;
-
-            if(String.IsNullOrEmpty(textBoxPrix.Text))
-                validation = false;
-
-            if(!int.TryParse(textBoxPrix.Text , out prix))
-                validation = false;
-
-            if (!int.TryParse(textBoxQuantite.Text, out quantite))
                 validation = false;
 
             return validation;

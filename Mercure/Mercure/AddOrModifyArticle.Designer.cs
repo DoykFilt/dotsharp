@@ -37,17 +37,19 @@
             this.ComboFamille = new System.Windows.Forms.Label();
             this.comboBoxSsFam = new System.Windows.Forms.ComboBox();
             this.ComboSousFamille = new System.Windows.Forms.Label();
-            this.textBoxPrix = new System.Windows.Forms.TextBox();
             this.textPrix = new System.Windows.Forms.Label();
             this.textBoxDescrip = new System.Windows.Forms.TextBox();
             this.textDescription = new System.Windows.Forms.Label();
             this.textQuantite = new System.Windows.Forms.Label();
-            this.textBoxQuantite = new System.Windows.Forms.TextBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.ButtonVal = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
@@ -80,12 +82,12 @@
             this.tableLayoutPanel1.Controls.Add(this.ComboFamille, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.comboBoxSsFam, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.ComboSousFamille, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.textBoxPrix, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.textPrix, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.textBoxDescrip, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.textDescription, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.textQuantite, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.textBoxQuantite, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.numericUpDown1, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.numericUpDown2, 1, 6);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 7;
@@ -174,14 +176,6 @@
             this.ComboSousFamille.Text = "Sous-Famille";
             this.ComboSousFamille.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBoxPrix
-            // 
-            this.textBoxPrix.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBoxPrix.Location = new System.Drawing.Point(141, 177);
-            this.textBoxPrix.Name = "textBoxPrix";
-            this.textBoxPrix.Size = new System.Drawing.Size(152, 20);
-            this.textBoxPrix.TabIndex = 9;
-            // 
             // textPrix
             // 
             this.textPrix.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -226,13 +220,35 @@
             this.textQuantite.Text = "Quantité";
             this.textQuantite.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBoxQuantite
+            // numericUpDown1
             // 
-            this.textBoxQuantite.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.textBoxQuantite.Location = new System.Drawing.Point(141, 214);
-            this.textBoxQuantite.Name = "textBoxQuantite";
-            this.textBoxQuantite.Size = new System.Drawing.Size(152, 20);
-            this.textBoxQuantite.TabIndex = 14;
+            this.numericUpDown1.DecimalPlaces = 2;
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.numericUpDown1.Location = new System.Drawing.Point(141, 173);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(152, 20);
+            this.numericUpDown1.TabIndex = 14;
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(141, 207);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(152, 20);
+            this.numericUpDown2.TabIndex = 15;
             // 
             // ButtonVal
             // 
@@ -296,7 +312,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 312);
+            this.ClientSize = new System.Drawing.Size(354, 311);
             this.Controls.Add(this.tableLayoutPanel3);
             this.MaximumSize = new System.Drawing.Size(370, 350);
             this.MinimumSize = new System.Drawing.Size(370, 350);
@@ -304,6 +320,8 @@
             this.Text = "Ajout d\'un Article";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -321,7 +339,6 @@
         private System.Windows.Forms.Label ComboSousFamille;
         private System.Windows.Forms.Label LineEnomArticle;
         private System.Windows.Forms.TextBox textBoxRef;
-        private System.Windows.Forms.TextBox textBoxPrix;
         private System.Windows.Forms.Label textPrix;
         private System.Windows.Forms.Button ButtonVal;
         private System.Windows.Forms.Button buttonCancel;
@@ -329,7 +346,8 @@
         private System.Windows.Forms.Label textDescription;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label textQuantite;
-        private System.Windows.Forms.TextBox textBoxQuantite;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
     }
 }
